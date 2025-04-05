@@ -49,14 +49,15 @@
           <legend><strong><font size="4">Vitals</font></strong></legend>
           <table width="100%" border="0" cellpadding="3" cellspacing="0">
             <tr>
-              <td align="left" width="17%">HP:      <br><input type="text" name="hp" size="10" value="<?=$hp?>"<?echo (isset($changed_level)) ? " style='background-color: #FFFF00;'" : "";?>></td>
-              <td align="left" width="17%">Mana:    <br><input type="text" name="mana" size="10" value="<?=$mana?>"<?echo (isset($changed_level)) ? " style='background-color: #FFFF00;'" : "";?>></td>
-              <td align="left" width="17%">AC:      <br><input type="text" name="AC" size="10" value="<?=$AC?>"<?echo (isset($changed_level)) ? " style='background-color: #FFFF00;'" : "";?>></td>
-              <td align="left" width="17%">Runspeed:<br><input type="text" name="runspeed" size="10" value="<?=$runspeed?>"></td>
-              <td align="left" width="16%">ATK:     <br><input type="text" name="ATK" size="10" value="<?=$ATK?>"></td>
-              <td align="left" width="16%">Accuracy:<br><input type="text" name="Accuracy" size="10" value="<?=$Accuracy?>"></td>
+              <td align="left" width="17%">HP:        <br><input type="text" name="hp" size="10" value="<?=$hp?>"<?echo (isset($changed_level)) ? " style='background-color: #FFFF00;'" : "";?>></td>
+              <td align="left" width="17%">Mana:      <br><input type="text" name="mana" size="10" value="<?=$mana?>"<?echo (isset($changed_level)) ? " style='background-color: #FFFF00;'" : "";?>></td>
+              <td align="left" width="17%">AC:        <br><input type="text" name="AC" size="10" value="<?=$AC?>"<?echo (isset($changed_level)) ? " style='background-color: #FFFF00;'" : "";?>></td>
+              <td align="left" width="17%">Runspeed:  <br><input type="text" name="runspeed" size="10" value="<?=$runspeed?>"></td>
+              <td align="left" width="16%">Walkspeed: <br><input type="text" name="walkspeed" size="10" value="<?=$walkspeed?>"></td>
+              <td align="left" width="16%">ATK:       <br><input type="text" name="ATK" size="10" value="<?=$ATK?>"></td>
             </tr>
             <tr>
+              <td align="left">Accuracy:<br><input type="text" name="Accuracy" size="10" value="<?=$Accuracy?>"></td>
               <td align="left">
                 See Invis:<br>
                 <input type="text" name="see_invis" size="5" value="<?=$see_invis?>">
@@ -83,7 +84,14 @@
                 </select>
               </td>
               <td align="left">Avoidance:<br><input type="text" name="Avoidance" size="10" value="<?=$Avoidance?>"></td>
+            </tr>
+            <tr>
               <td align="left">Scalerate:<br><input type="text" name="scalerate" size="10" value="<?=$scalerate?>"></td>
+              <td align="left">&nbsp;</td>
+              <td align="left">&nbsp;</td>
+              <td align="left">&nbsp;</td>
+              <td align="left">&nbsp;</td>
+              <td align="left">&nbsp;</td>
             </tr>
           </table>
         </fieldset><br>
@@ -391,12 +399,18 @@
                   <option value="1"<?echo ($is_parcel_merchant == 1) ? " selected" : ""?>>Yes (1)</option>
                 </select>
               </td>
-              <td align="left" width="16%">&nbsp;</td>
+              <td align="left" width="16%">
+                Multiquest:<br>
+                <select name="multiquest_enabled">
+                  <option value="0"<?echo ($multiquest_enabled == 0) ? " selected" : ""?>>No (0)</option>
+                  <option value="1"<?echo ($multiquest_enabled == 1) ? " selected" : ""?>>Yes (1)</option>
+                </select>
+              </td>
             </tr>
             <tr>
               <td align="left" width="17%">
                 Merchant ID:<br>
-                <input type="text" size="10" name="marchant_id" value="<?=$merchant_id?>">
+                <input type="text" size="10" name="merchant_id" value="<?=$merchant_id?>">
               </td>
               <td align="left" width="17%">
                 Greed:<br>

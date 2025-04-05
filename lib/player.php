@@ -189,6 +189,42 @@ switch ($action) {
       }
     }
     break;
+  case 14: // Character Evolving Items
+    check_admin_authorization();
+    $breadcrumbs .= " >> Evolving Items";
+    $body = new Template("templates/player/player.evolving.items.tmpl.php");
+    $evolving = get_evolving_items($_GET['playerid']);
+    $body->set('playerid', $_GET['playerid']);
+    $body->set('yesno', $yesno);
+    if ($evolving) {
+      $body->set('evolving', $evolving);
+    }
+    break;
+  case 15: // Edit Custom Pet Name
+    check_admin_authorization();
+    $body = new Template("templates/player/player.pet.name.tmpl.php");
+    $breadcrumbs .= " >> Custom Pet Name";
+    $body->set('playerid', $_GET['playerid']);
+    $body->set('name', get_pet_name($_GET['playerid']));
+    break;
+  case 16: // Update Custom Pet Name
+    check_admin_authorization();
+    update_pet_name();
+    $playerid = $_POST['playerid'];
+    header("Location: index.php?editor=player&playerid=$playerid");
+    exit();
+  case 17: // Delete Custom Pet Name
+    check_admin_authorization();
+    $playerid = $_GET['playerid'];
+    delete_pet_name($playerid);
+    header("Location: index.php?editor=player&playerid=$playerid");
+    exit();
+  case 18: // Toggle Character PVP
+    check_admin_authorization();
+    $playerid = $_GET['playerid'];
+    toggle_pvp_status($_GET['playerid']);
+    header("Location: index.php?editor=player&playerid=$playerid");
+    exit;
 }
 
 function get_players($page_number, $results_per_page, $sort_by) {
@@ -322,6 +358,9 @@ function player_info() {
     $player_array['exp_mods'] = $results;
   }
 
+  //Load custom pet name
+  $player_array['pet_name'] = get_pet_name($playerid);
+
   return $player_array;
 }
 
@@ -453,5 +492,77 @@ function character_stats_record() {
   else {
     return null;
   }
+}
+
+function get_evolving_items($playerid) {
+  global $mysql;
+  $evolving_items = array();
+
+  $query1 = "SELECT * FROM character_evolving_items WHERE character_id = $playerid AND deleted_at IS NULL";
+  $results1 = $mysql->query_mult_assoc($query1);
+
+  if ($results1) {
+    $evolving_items['current'] = $results1;
+  }
+
+  $query2 = "SELECT * FROM character_evolving_items WHERE character_id = $playerid AND deleted_at IS NOT NULL";
+  $results2 = $mysql->query_mult_assoc($query2);
+
+  if ($results2) {
+    $evolving_items['history'] = $results2;
+  }
+
+  if ($results1 || $results2) {
+    return $evolving_items;
+  }
+  else {
+    return null;
+  }
+}
+
+function get_pet_name($character_id) {
+  global $mysql;
+
+  $query = "SELECT `name` FROM character_pet_name WHERE character_id=$character_id";
+  $result = $mysql->query_assoc($query);
+
+  if ($result) {
+    return $result['name'];
+  }
+  else {
+    return "N/A";
+  }
+}
+
+function update_pet_name() {
+  global $mysql;
+
+  $playerid = $_POST['playerid'];
+  $name = $_POST['name'];
+
+  $query = "REPLACE INTO character_pet_name SET character_id=$playerid, `name`='$name'";
+  $mysql->query_no_result($query);
+}
+
+function delete_pet_name($character_id) {
+  global $mysql;
+
+  $query = "DELETE FROM character_pet_name WHERE character_id=$character_id";
+  $mysql->query_no_result($query);
+}
+
+function toggle_pvp_status($playerid) {
+  global $mysql;
+  $enabled = 0;
+
+  $query = "SELECT pvp_status FROM character_data WHERE id=$playerid";
+  $result = $mysql->query_assoc($query);
+
+  if ($result['pvp_status'] == 0) {
+    $enabled = 1;
+  }
+
+  $query = "UPDATE character_data SET pvp_status=$enabled WHERE id=$playerid";
+  $mysql->query_no_result($query);
 }
 ?>

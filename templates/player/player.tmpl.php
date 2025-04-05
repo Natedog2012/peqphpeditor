@@ -3,6 +3,7 @@
       <div style="float:right">
         <a href="index.php?editor=player&playerid=<?=$playerid?>&action=13"><img src="images/view_all.gif" style="border: 0" title="View Stats Record" alt="View Stats Record"></a>&nbsp;
         <a href="index.php?editor=inv&playerid=<?=$playerid?>&action=1"><img src="images/contents.png" style="border: 0;" title="View Inventory" alt="View Inventory"></a>&nbsp;
+        <a href="index.php?editor=player&playerid=<?=$playerid?>&action=14"><img src="images/evolve.gif" style="border: 0;" title="View Evolving Items" alt="View Evolving Items"></a>&nbsp;
         <a href="index.php?editor=keys&playerid=<?=$playerid?>&action=1"><img src="images/key.png" style="border: 0;" title="View Keyring" alt="View Keyring"></a>&nbsp;
         <a onClick="javascript:alert('Not yet!');"><img src="images/c_table.gif" style="border: 0;" title="Edit this Player" alt="Edit this Player"></a>&nbsp;
         <a onClick="return confirm('Really delete player <?=trim($name)?> (<?=$playerid?>)?');" href="index.php?editor=player&playerid=<?=$playerid?>&action=4"><img src="images/table.gif" style="border: 0;" title="Delete this Player" alt="Delete this Player"></a>
@@ -75,7 +76,8 @@
                     Drunkness: <?=$intoxication?><br>
                     Toxicity: <?=$toxicity?><br>
                     Autosplit: <?=$yesno[$autosplit_enabled]?><br>
-                    Exp Enabled: <?=$yesno[$exp_enabled]?> [<a href="index.php?editor=player&playerid=<?=$id?>&action=12">Change</a>]
+                    Exp Enabled: <?=$yesno[$exp_enabled]?> [<a href="index.php?editor=player&playerid=<?=$id?>&action=12">Change</a>]<br>
+                    Illusion Block: <?=$illusion_block?>
                   </fieldset>
                 </td>
               </tr>
@@ -285,7 +287,7 @@
                     <legend><strong>PVP Info</strong></legend>
                     <table width="100%" border="0" cellpadding="3" cellspacing="0">
                       <tr>
-                        <td>PVP: <?=$yesno[$pvp_status]?></td>
+                        <td>PVP: <a href="index.php?editor=player&playerid=<?=$id?>&action=18" title="Toggle PVP Status"><?=$yesno[$pvp_status]?></a></td>
                         <td>PVP2: <?=$yesno[$pvp2]?></td>
                         <td>PVP Kills: <?=$pvp_kills?></td>
                         <td>PVP Deaths: <?=$pvp_deaths?></td>
@@ -366,6 +368,18 @@
 <?else:?>
               None
 <?endif;?>
+            </fieldset><br>
+            <fieldset>
+              <legend><strong>Pet Data</strong></legend>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="left" width="80%">Name: <?=$pet_name?></td>
+                  <td align="right" width="20%">
+                    <a href="index.php?editor=player&playerid=<?=$playerid?>&action=15" title="Edit Custom Pet Name"><img src="images/edit2.gif" width="10" alt="Edit Name"></a>&nbsp;
+                    <?echo ($pet_name != "N/A") ? "<a href='index.php?editor=player&playerid=" . $id . "&action=17' title='Delete Custom Pet Name'><img src='images/delete.gif' width='10' alt='Delete Name'></a>" : "";?>
+                  </td>
+                </tr>
+              </table>
             </fieldset>
           </td>
           <td>
@@ -566,38 +580,38 @@
               <legend><strong>Modifiers</strong></legend>
               <table width="100%">
                 <tr>
-                  <td width="50%">
+                  <td width="60%">
                     <fieldset>
                       <legend><strong>Experience Mods</strong> (<a href="index.php?editor=player&playerid=<?=$playerid?>&action=8">Add</a>)</legend>
 <?if (isset($exp_mods)):?>
-                        <table width="100%">
-                          <tr>
-                            <td align="center"><u>Zone</u></td>
-                            <td align="center"><u>Version</u></td>
-                            <td align="center"><u>Base EXP Mod</u></td>
-                            <td align="center"><u>AA EXP Mod</u></td>
-                            <td align="center">&nbsp;</td>
-                          </tr>
+                      <table width="100%">
+                        <tr>
+                          <td align="center"><u>Zone</u></td>
+                          <td align="center"><u>Version</u></td>
+                          <td align="center"><u>Base EXP Mod</u></td>
+                          <td align="center"><u>AA EXP Mod</u></td>
+                          <td align="center">&nbsp;</td>
+                        </tr>
 <?  foreach ($exp_mods as $exp_mod):?>
-                          <tr>
-                            <td align="center"><?=$exp_mod['zone_id'] == 0 ? "Global" : getZoneName($exp_mod['zone_id'])?> (<?=$exp_mod['zone_id']?>)</td>
-                            <td align="center"><?echo ($exp_mod['instance_version'] == -1) ? "All (-1)" : $exp_mod['instance_version'];?></td>
-                            <td align="center"><?=$exp_mod['exp_modifier']?></td>
-                            <td align="center"><?=$exp_mod['aa_modifier']?></td>
-                            <td align="center">
-                              <?echo ($exp_mod['exp_modifier'] == 0 && $exp_mod['aa_modifier'] == 0) ? "<img src='images\caution.gif' width='13' title='Zero values have no effect'>&nbsp;" : "";?>
-                              <a href="index.php?editor=player&playerid=<?=$exp_mod['character_id']?>&zoneid=<?=$exp_mod['zone_id']?>&instance_version=<?=$exp_mod['instance_version']?>&action=9"><img src="images/edit2.gif" width="13"></a>&nbsp;
-                              <a href="index.php?editor=player&playerid=<?=$exp_mod['character_id']?>&zoneid=<?=$exp_mod['zone_id']?>&instance_version=<?=$exp_mod['instance_version']?>&action=11"><img src="images/delete.gif" width="13"></a>
-                            </td>
-                          </tr>
+                        <tr>
+                          <td align="center"><?=$exp_mod['zone_id'] == 0 ? "Global" : getZoneName($exp_mod['zone_id'])?> (<?=$exp_mod['zone_id']?>)</td>
+                          <td align="center"><?echo ($exp_mod['instance_version'] == -1) ? "All (-1)" : $exp_mod['instance_version'];?></td>
+                          <td align="center"><?=$exp_mod['exp_modifier']?></td>
+                          <td align="center"><?=$exp_mod['aa_modifier']?></td>
+                          <td align="center">
+                            <?echo ($exp_mod['exp_modifier'] == 0 && $exp_mod['aa_modifier'] == 0) ? "<img src='images\caution.gif' width='13' title='Zero values have no effect'>&nbsp;" : "";?>
+                            <a href="index.php?editor=player&playerid=<?=$exp_mod['character_id']?>&zoneid=<?=$exp_mod['zone_id']?>&instance_version=<?=$exp_mod['instance_version']?>&action=9"><img src="images/edit2.gif" width="13"></a>&nbsp;
+                            <a href="index.php?editor=player&playerid=<?=$exp_mod['character_id']?>&zoneid=<?=$exp_mod['zone_id']?>&instance_version=<?=$exp_mod['instance_version']?>&action=11"><img src="images/delete.gif" width="13"></a>
+                          </td>
+                        </tr>
 <?  endforeach;?>
-                        </table>
+                      </table>
 <?else:?>
-                        None
+                      None
 <?endif;?>
                     </fieldset>
                   </td>
-                  <td width="50%">&nbsp;</td>
+                  <td width="40%">&nbsp;</td>
                 </tr>
               </table>
             </fieldset>

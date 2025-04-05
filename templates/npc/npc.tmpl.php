@@ -143,18 +143,23 @@ if ($loottable_id > 0) {
                   </tr>
                   <tr>
                     <td align="left" width="33%">Run: <?=$runspeed?></td>
-                    <td align="left" width="33%">Avoidance: <?=$Avoidance?></td>
+                    <td align="left" width="33%">Walk: <?=$walkspeed?></td>
+                    <td align="left" width="34%">Avoidance: <?=$Avoidance?></td>
+                  </tr>
+                  <tr>
                     <td align="left" width="34%">Accuracy: <?=$Accuracy?></td>
+                    <td align="left" width="33%">ATK: <?=$ATK?></td>
+                    <td align="left" width="34%">See Invis: <?echo ($see_invis > 0) ? "Yes (" . $see_invis . ")": "No";?></td>
                   </tr>
                   <tr>
-                    <td align="left" width="34%">ATK: <?=$ATK?></td>
-                    <td align="left" width="33%">See Invis: <?echo ($see_invis > 0) ? "Yes (" . $see_invis . ")": "No";?></td>
-                    <td align="left" width="34%">See ITU: <?=$yesno[$see_invis_undead]?></td>
-                  </tr>
-                  <tr>
+                    <td align="left" width="33%">See ITU: <?=$yesno[$see_invis_undead]?></td>
                     <td align="left" width="33%">See Hide: <?=$yesno[$see_hide]?></td>
-                    <td align="left" width="33%">See Imp Hide: <?=$yesno[$see_improved_hide]?></td>
-                    <td align="left" width="34%">Scalerate: <?=$scalerate?></td>
+                    <td align="left" width="34%">See Imp Hide: <?=$yesno[$see_improved_hide]?></td>
+                  </tr>
+                  <tr>
+                    <td align="left" width="33%">Scalerate: <?=$scalerate?></td>
+                    <td align="left" width="33%">&nbsp;</td>
+                    <td align="left" width="34%">&nbsp;</td>
                   </tr>
                 </table>
               </fieldset>
@@ -369,7 +374,7 @@ if ($loottable_id > 0) {
                   <tr>
                     <td align="left" width="33%">Trap Template: <?=$trap_template?></td>
                     <td align="left" width="33%">Parcel Merchant: <?=$yesno[$is_parcel_merchant]?></td>
-                    <td align="left" width="34%">&nbsp;</td>
+                    <td align="left" width="34%">Multiquest: <?=$yesno[$multiquest_enabled]?></td>
                   </tr>
                 </table>
               </fieldset>
@@ -428,6 +433,7 @@ if ($loottable_id > 0) {
         <input type="hidden" name="sec_melee_type" value="<?=$sec_melee_type?>">
         <input type="hidden" name="ranged_type" value="<?=$ranged_type?>">
         <input type="hidden" name="runspeed" value="<?=$runspeed?>">
+        <input type="hidden" name="walkspeed" value="<?=$walkspeed?>">
         <input type="hidden" name="MR" value="<?=$MR?>">
         <input type="hidden" name="CR" value="<?=$CR?>">
         <input type="hidden" name="DR" value="<?=$DR?>">
@@ -491,6 +497,7 @@ if ($loottable_id > 0) {
         <input type="hidden" name="faction_amount" value="<?=$faction_amount?>">
         <input type="hidden" name="keeps_sold_items" value="<?=$keeps_sold_items?>">
         <input type="hidden" name="is_parcel_merchant" value="<?=$is_parcel_merchant?>">
+        <input type="hidden" name="multiquest_enabled" value="<?=$multiquest_enabled?>">
         <center>
           NEW ID:<input type="text" name="id" size="10" value="<?=$suggestedid?>">
           <input type="submit" value="Copy NPC">

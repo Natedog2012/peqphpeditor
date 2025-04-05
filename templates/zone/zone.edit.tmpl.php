@@ -57,7 +57,7 @@
                   <td align="left" width="25%">NPC Max Aggro:<br><input type="text" name="npc_max_aggro_dist" size="7" value="<?=$npc_max_aggro_dist?>"></td>
                 </tr>
                 <tr>
-                  <td align="left" width="25%">Max Movement Update:<br><input type="text" name="max_movement_update_range" size="7" value="<?=$max_movement_update_range?>"></td>
+                  <td align="left" width="25%">Client Update Range:<br><input type="text" name="client_update_range" size="7" value="<?=$client_update_range?>"></td>
                   <td align="left" width="25%">Underworld:<br><input type="text" name="underworld" size="7" value="<?=$underworld?>"></td>
                   <td align="left" width="25%">Underworld Teleport Index:<br><input type="text" name="underworld_teleport_index" size="7" value="<?=$underworld_teleport_index?>"></td>
                   <td align="left" width="25%">&nbsp;</td>
@@ -73,6 +73,12 @@
                     </select>
                   </td>
                   <td align="left" width="25%">Seconds Before Idle:<br><input type="text" name="seconds_before_idle" size="7" value="<?=$seconds_before_idle?>"></td>
+                </tr>
+                <tr>
+                  <td align="left" width="25%">Shard at Player Count:<br><input type="text" name="shard_at_player_count" size="7" value="<?=$shard_at_player_count?>"></td>
+                  <td align="left" width="25%">&nbsp;</td>
+                  <td align="left" width="25%">&nbsp;</td>
+                  <td align="left" width="25%">&nbsp;</td>
                 </tr>
                 <tr>
                   <td align="left" width="25%">
